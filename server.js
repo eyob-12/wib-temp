@@ -27,19 +27,19 @@ const cartRoutes = require("./routes/cartRoutes");
 const wishlistRoutes = require('./routes/wishlistRoutes');
 //const deliveryRoutes = require('./routes/delivery');
 const deliveryRoute = require('./api/delivery/route/userRoutes');
-const SizeRoute=require("./routes/sizeRoutes")
+const SizeRoute = require("./routes/sizeRoutes")
 
 //new
-const PromotionRoute=require("./routes/promotionRoutes");
-const ReportIssue=require("./routes/ReportRoute");
-const StoreRoute=require("./routes/storeRoute");
-const ActivityRoute=require("./routes/ActivityRoutes");
-const DocumentRoute=require("./routes/documentRouter")
+const PromotionRoute = require("./routes/promotionRoutes");
+const ReportIssue = require("./routes/ReportRoute");
+const StoreRoute = require("./routes/storeRoute");
+const ActivityRoute = require("./routes/ActivityRoutes");
+const DocumentRoute = require("./routes/documentRouter")
 
-const RegisterRoutes=require("./routes/registerRoutes");
-const MessageRouter=require("./routes/messageRoutes");
-const ConversationRoute=require("./routes/conversationRoutes");
-const PackageRoute=require("./routes/packageRouter")
+const RegisterRoutes = require("./routes/registerRoutes");
+const MessageRouter = require("./routes/messageRoutes");
+const ConversationRoute = require("./routes/conversationRoutes");
+const PackageRoute = require("./routes/packageRouter")
 
 const http = require("http");
 const { Server } = require("socket.io");
@@ -62,10 +62,10 @@ app.use(cors({
     origin: [
         'http://localhost:3000',
         'http://localhost:3001',
-        "https://www.stock.kefaycard.com/",
-        "https://stock.kefaycard.com/",
+        'https://www.stock.kefaycard.com',
+        'https://stock.kefaycard.com',
+
     ],
-    methods: 'GET, POST, PUT, DELETE',
     credentials: true,
 }));
 
@@ -74,8 +74,8 @@ app.options('*', cors({
     origin: [
         'http://localhost:3000',
         'http://localhost:3001',
-        "https://www.stock.kefaycard.com/",
-        "https://stock.kefaycard.com/",
+        "https://www.stock.kefaycard.com",
+        "https://stock.kefaycard.com",
     ],
     credentials: true
 }));
@@ -115,16 +115,16 @@ io.on('connection', socket => {
                 receiverId,
                 user: { id: user._id, fullName: user.fullName, email: user.email }
             });
-            }else {
-                io.to(sender.socketId).emit('getMessage', {
-                    senderId,
-                    message,
-                    conversationId,
-                    receiverId,
-                    user: { id: user._id, fullName: user.fullName, email: user.email }
-                });
-            }
-        });
+        } else {
+            io.to(sender.socketId).emit('getMessage', {
+                senderId,
+                message,
+                conversationId,
+                receiverId,
+                user: { id: user._id, fullName: user.fullName, email: user.email }
+            });
+        }
+    });
 
     socket.on('disconnect', () => {
         users = users.filter(user => user.socketId !== socket.id);
@@ -157,19 +157,19 @@ app.use("/api/payment", PaymentRouter);
 app.use("/api/cart", cartRoutes);
 app.use('/api/wishlist', wishlistRoutes);
 app.use('/api/delivery', deliveryRoute);
-app.use("/api/size",SizeRoute);
+app.use("/api/size", SizeRoute);
 
 
 //new
-app.use("/api/store",StoreRoute);
+app.use("/api/store", StoreRoute);
 app.use("./api/promotion", PromotionRoute);
 app.use("./api/report", ReportIssue);
-app.use("./api/user",RegisterRoutes);
-app.use("/api/activity",ActivityRoute);
-app.use("/api/document",DocumentRoute);
-app.use("/api/message",MessageRouter);
-app.use("/api/converstion",ConversationRoute);
-app.use("/api/package",PackageRoute);
+app.use("./api/user", RegisterRoutes);
+app.use("/api/activity", ActivityRoute);
+app.use("/api/document", DocumentRoute);
+app.use("/api/message", MessageRouter);
+app.use("/api/converstion", ConversationRoute);
+app.use("/api/package", PackageRoute);
 
 
 // Serve Static Files
